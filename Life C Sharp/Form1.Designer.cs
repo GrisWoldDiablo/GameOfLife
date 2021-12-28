@@ -220,7 +220,7 @@ namespace Life_C_Sharp
             this.Controls.Add(this.button1);
             this.DoubleBuffered = true;
             this.Name = "FormBack";
-            this.Text = "Form1";
+            this.Text = "GW\'s Conway Game Of Life";
             this.ResizeEnd += new System.EventHandler(this.FormBack_ResizeEnd);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FormBack_MouseClick);
