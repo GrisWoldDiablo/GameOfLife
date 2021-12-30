@@ -32,12 +32,19 @@ namespace Life_C_Sharp
             _neighbourghs = cell._neighbourghs;
         }
 
-        public void DrawFill(Brush b, Graphics g)
+        public void DrawFill(Brush b, Graphics g, bool isSquare = true)
         {
             if (IsAlive)
             {
-                //g.FillRectangle(b, _rect);
-                g.FillEllipse(b, _rect);
+                if (isSquare)
+                {
+                    g.FillRectangle(b, _rect);
+
+                }
+                else
+                {
+                    g.FillEllipse(b, _rect);
+                }
             }
         }
 

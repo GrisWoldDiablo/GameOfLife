@@ -19,6 +19,7 @@ namespace Life_C_Sharp
         private bool? _setState = null;
         private Cell[] _saveCells;
         private Cell[] _saveGrid;
+        private bool _timeStateOnDown;
 
         public FormBack()
         {
@@ -43,15 +44,22 @@ namespace Life_C_Sharp
             var gridColor = Color.FromArgb(50, Color.DarkGray);
 
             var myPen = new Pen(gridColor);
-            foreach (var cell in Grid)
-            {
-                cell.Draw(myPen, e.Graphics);
-            }
-            myPen.Dispose();
+            //foreach (var cell in Grid)
+            //{
+            //    cell.Draw(myPen, e.Graphics);
+            //}
+            //myPen.Dispose();
 
             foreach (var cell in Cells)
             {
-                cell.DrawFill(myBrush, e.Graphics);
+                if (cell.IsAlive)
+                {
+                    cell.DrawFill(myBrush, e.Graphics, _random.Next(2) == 1);
+                }
+                else
+                {
+                    cell.Draw(myPen, e.Graphics);
+                }
             }
             myBrush.Dispose();
         }
@@ -306,19 +314,6 @@ namespace Life_C_Sharp
             UpdateDown(e);
         }
 
-        private void button1_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (!timer1.Enabled)
-            {
-                timer1.Start();
-            }
-        }
-
-        private void button1_MouseUp(object sender, MouseEventArgs e)
-        {
-            timer1.Stop();
-        }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             MoveStep();
@@ -355,6 +350,11 @@ namespace Life_C_Sharp
         {
             _isDown = true;
             UpdateDown(e);
+            _timeStateOnDown = timer1.Enabled;
+            if (_timeStateOnDown)
+            {
+                timer1.Stop();
+            }
         }
 
         private void UpdateDown(MouseEventArgs e)
@@ -378,16 +378,24 @@ namespace Life_C_Sharp
         {
             _isDown = false;
             _setState = null;
+            if (_timeStateOnDown)
+            {
+                timer1.Start();
+            }
+
+            _lastCoord = -1;
         }
 
         private void PlayButton_Click(object sender, EventArgs e)
         {
             if (timer1.Enabled)
             {
+                PlayButton.BackColor = Color.Red;
                 timer1.Stop();
             }
             else
             {
+                PlayButton.BackColor = Color.Lime;
                 timer1.Start();
             }
         }
